@@ -35,6 +35,14 @@ class Task(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+
+    def can_change_status(self, new_status):
+        status_order = ['To Do', 'In Progress', 'Done']
+        current_index = status_order.index(self.status.name)
+        new_index = status_order.index(new_status.name)
+
+        return new_index >= current_index
+
     def __str__(self):
         return self.title
 
