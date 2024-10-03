@@ -47,6 +47,13 @@ class Task(models.Model):
     def __str__(self):
         return self.title
 
+    class Meta:
+        indexes = [
+            models.Index(fields=['status']),
+            models.Index(fields=['priority']),
+            models.Index(fields=['created_at']),
+        ]
+
 
 class TaskHistory(models.Model):
     task = models.ForeignKey(
