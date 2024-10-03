@@ -5,6 +5,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.exceptions import InvalidToken, TokenError
 
+
 from .serializers import RegisterSerializer
 
 
@@ -26,12 +27,15 @@ class LoginView(TokenObtainPairView):
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         email = request.data.get('email')
-        user = User.objects.get(email=email)
-        user_data = {'id': user.id}
-        new_data = list(user_data.items())
         try:
-            serializer.is_valid(raise_exception=True)
-        except TokenError as e:
-            raise InvalidToken(e.args[0])
-        serializer.validated_data.update(new_data)
-        return Response(serializer.validated_data, status=200)
+            user = User.objects.get(email=email)
+            user_data = {'id': user.id}
+            new_data = list(user_data.items())
+            try:
+                serializer.is_valid(raise_exception=True)
+            except TokenError as e:
+                raise InvalidToken(e.args[0])
+            serializer.validated_data.update(new_data)
+            return Response(serializer.validated_data, status=200)
+        except User.DoesNotExist:
+            return Response("There is no a such user")
