@@ -7,6 +7,7 @@ from rest_framework.permissions import IsAuthenticated
 
 from .models import Board, Task, Status, TaskHistory
 from .serializers import BoardSerializer, TaskSerializer, StatusSerializer, TaskHistorySerializer
+from .tasks import send_status_change_notification
 
 
 class BoardViewSet(viewsets.ModelViewSet):
@@ -50,6 +51,8 @@ class TaskViewSet(viewsets.ModelViewSet):
                 new_status=new_status,
                 changed_by=request.user
             )
+            send_status_change_notification.delay(
+                task.title, task.status.name, task.assigned_to.email)
 
             return response
         else:
