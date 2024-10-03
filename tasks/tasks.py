@@ -10,3 +10,9 @@ def send_status_change_notification(task_title, new_status, user_email):
     email_from = settings.DEFAULT_FROM_EMAIL
     recipient_list = [user_email]
     send_mail(subject, message, email_from, recipient_list)
+
+
+@shared_task
+def send_daily_report():
+    # Логика отправки отчета о статусе проектов
+    pass

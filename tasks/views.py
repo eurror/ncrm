@@ -1,9 +1,9 @@
-from .models import TaskHistory, Status
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.response import Response
 from rest_framework import status as drf_status
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
+from django_filters.rest_framework import DjangoFilterBackend
 
 from .models import Board, Task, Status, TaskHistory
 from .serializers import BoardSerializer, TaskSerializer, StatusSerializer, TaskHistorySerializer
@@ -20,6 +20,8 @@ class TaskViewSet(viewsets.ModelViewSet):
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
     permission_classes = [IsAuthenticated]
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['status', 'created_at', 'priority']
 
     def update(self, request, *args, **kwargs):
         task = self.get_object()
