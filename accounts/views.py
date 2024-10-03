@@ -1,16 +1,11 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth import login
 from django.contrib.auth import get_user_model
 from rest_framework import viewsets
 from rest_framework.response import Response
-from rest_framework.permissions import AllowAny, IsAuthenticated
-from .serializers import RegisterSerializer, LoginSerializer
-from rest_framework.views import APIView
-from django.contrib.auth import authenticate
-from rest_framework.authtoken.models import Token
-from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework.permissions import AllowAny
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.exceptions import InvalidToken, TokenError
+
+from .serializers import RegisterSerializer
 
 
 User = get_user_model()

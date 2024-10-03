@@ -27,26 +27,20 @@ class TaskViewSet(viewsets.ModelViewSet):
         task = self.get_object()
         new_status_id = request.data.get('status')
 
-        # Проверяем, что текущий пользователь назначен на задачу
         if task.assigned_to != request.user:
             raise PermissionDenied("Вы не можете изменять статус этой задачи.")
 
-        # Проверяем, что новый статус отличается от текущего
         if new_status_id and str(task.status.id) != new_status_id:
             new_status = Status.objects.get(id=new_status_id)
 
-            # Проверяем, можно ли изменить статус на новый (с учетом последовательности)
             if not task.can_change_status(new_status):
                 return Response({'detail': 'Нельзя изменить статус задачи на выбранный.'},
                                 status=drf_status.HTTP_400_BAD_REQUEST)
 
-            # Получаем старый статус для сохранения в истории
             old_status = task.status
 
-            # Обновляем статус задачи
             response = super().update(request, *args, **kwargs)
 
-            # Сохраняем изменения в TaskHistory
             TaskHistory.objects.create(
                 task=task,
                 old_status=old_status,
