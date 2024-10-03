@@ -1,5 +1,10 @@
 # Trello/Jira clone
 
+## TODO
+1. Makerfile
+2. .env
+3. SMTP
+
 ## Описание
 Система управления задачами, похожая на Trello или Jira, с поддержкой уведомлений и отчетов с помощью Celery.
 
