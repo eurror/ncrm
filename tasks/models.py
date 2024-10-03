@@ -1,5 +1,6 @@
 from django.db import models
-from django.contrib.auth.models import User
+from accounts.models import CustomUser
+from django.utils.translation import gettext_lazy as _
 
 
 class Board(models.Model):
@@ -28,7 +29,7 @@ class Task(models.Model):
     status = models.ForeignKey(
         Status, on_delete=models.SET_NULL, null=True)
     assigned_to = models.ForeignKey(
-        User, on_delete=models.SET_NULL, null=True, blank=True
+        CustomUser, on_delete=models.SET_NULL, null=True, blank=True
     )
     priority = models.IntegerField(default=1)
     due_date = models.DateField(blank=True, null=True)
@@ -55,7 +56,7 @@ class TaskHistory(models.Model):
     new_status = models.ForeignKey(
         Status, related_name='new_statuses', on_delete=models.SET_NULL, null=True)
     changed_at = models.DateTimeField(auto_now_add=True)
-    changed_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    changed_by = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         return f"Task '{self.task.title}' changed from {self.old_status} to {self.new_status}"
