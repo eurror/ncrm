@@ -23,6 +23,7 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 4. Настройте базу данных
+Для удобства, были настроены автоматические начальные данные при миграции
 ```bash
 ./manage.py makemigrations
 ./manage.py migrate
