@@ -2,8 +2,6 @@
 
 ## TODO
 1. Makerfile
-2. .env
-3. SMTP
 
 ## Описание
 Система управления задачами, похожая на Trello или Jira, с поддержкой уведомлений и отчетов с помощью Celery.
@@ -15,6 +13,7 @@ git clone https://github.com/eurror/ncrm.git
 ```
 2. Создайте виртуальное окружение
 ```bash
+cd ncrm
 python3 -m venv <venv>
 #Активируйте виртуальное окружение ->
 source venv/bin/activate
@@ -25,9 +24,16 @@ pip install -r requirements.txt
 ```
 4. Настройте базу данных
 ```bash
+./manage.py makemigrations
 ./manage.py migrate
 ```
-5. Запустите сервер
+5. Создайте файл .env, скопируйте данные с файла template.env в .env и заполните его своими данными
+```bash
+touch .env
+cp template.env .env
+### Далее вам необходимо заполнить свои данные в файле .env
+```
+6. Запустите сервер
 ```bash
 ./manage.py runserver
 ```bash
